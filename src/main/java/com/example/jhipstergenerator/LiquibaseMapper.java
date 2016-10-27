@@ -54,7 +54,7 @@ public class LiquibaseMapper implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		objectMapper = new ObjectMapper();
-//		objectMapper.setSerializationInclusion(Include.NON_NULL);
+		// objectMapper.setSerializationInclusion(Include.NON_NULL);
 		objectMapper.setSerializationInclusion(Include.NON_EMPTY);
 		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
@@ -111,7 +111,7 @@ public class LiquibaseMapper implements CommandLineRunner {
 		jhipsterEntity.setEntityTableName(tableName);
 		// store the order of create table
 		// extract these to config file
-		jhipsterEntity.setChangeLogDate("" + count);
+		jhipsterEntity.setChangelogDate("" + count);
 		jhipsterEntity.setDto("mapstruct");
 		jhipsterEntity.setService("serviceClass");
 		jhipsterEntity.setPagination("pagination");
@@ -158,7 +158,7 @@ public class LiquibaseMapper implements CommandLineRunner {
 
 		otherEntityName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, otherEntityName);
 		relationship.setRelationshipName(otherEntityName);
-		relationship.setOtherEntityField(otherEntityName);
+		relationship.setOtherEntityName(otherEntityName);
 		relationship.setRelationshipType("many-to-one");
 		relationship.setOtherEntityField("id");
 
@@ -203,7 +203,11 @@ public class LiquibaseMapper implements CommandLineRunner {
 
 	private void writeJHipsterEntities() throws IOException {
 		File outputFile = new File(appProperties.getOutput());
-		FileUtils.cleanDirectory(outputFile);
+		if (outputFile.exists()) {
+			FileUtils.cleanDirectory(outputFile);
+		} else {
+			FileUtils.forceMkdir(outputFile);
+		}
 
 		// convert the values of the entities map to list for comparision and
 		// sort
@@ -212,8 +216,8 @@ public class LiquibaseMapper implements CommandLineRunner {
 
 		// sort based on the change log date
 		// placeholder value for order in the change log file
-		Collections.sort(temp, (p1, p2) -> p1.getChangeLogDate()
-				.compareTo(p2.getChangeLogDate()));
+		Collections.sort(temp, (p1, p2) -> p1.getChangelogDate()
+				.compareTo(p2.getChangelogDate()));
 
 		temp.forEach(e -> {
 			try {
@@ -234,7 +238,7 @@ public class LiquibaseMapper implements CommandLineRunner {
 
 		// 20160613122820
 		String out = dateformat.format(now);
-		e.setChangeLogDate(out);
+		e.setChangelogDate(out);
 		objectMapper.writeValue(outputFile, e);
 
 	}

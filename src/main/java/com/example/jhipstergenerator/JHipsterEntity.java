@@ -92,7 +92,7 @@ public class JHipsterEntity {
 	private List<Relationship>	relationships	= new ArrayList<>();
 	private Boolean				fluentMethods	= true;
 	private String				dto;
-	private String				changeLogDate;
+	private String				changelogDate; // correct spelling in json file
 	private String				service;
 	private String				entityTableName;
 	private String				pagination;
@@ -121,12 +121,12 @@ public class JHipsterEntity {
 		this.dto = dto;
 	}
 
-	public String getChangeLogDate() {
-		return changeLogDate;
+	public String getChangelogDate() {
+		return changelogDate;
 	}
 
-	public void setChangeLogDate(String changeLogDate) {
-		this.changeLogDate = changeLogDate;
+	public void setChangelogDate(String changeLogDate) {
+		this.changelogDate = changeLogDate;
 	}
 
 	public String getService() {
