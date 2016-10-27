@@ -1,0 +1,637 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+	<changeSet author="tstoner (generated)" id="1477581069604-1">
+		<createTable tableName="actor">
+			<column autoIncrement="true" name="actor_id" type="SMALLINT UNSIGNED">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="first_name" type="VARCHAR(45)">
+				<constraints nullable="false" />
+			</column>
+			<column name="last_name" type="VARCHAR(45)">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="last_update"
+				type="TIMESTAMP(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-2">
+		<createTable tableName="address">
+			<column autoIncrement="true" name="address_id" type="SMALLINT UNSIGNED">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="address" type="VARCHAR(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="address2" type="VARCHAR(50)" />
+			<column name="district" type="VARCHAR(20)">
+				<constraints nullable="false" />
+			</column>
+			<column name="city_id" type="SMALLINT UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column name="postal_code" type="VARCHAR(10)" />
+			<column name="phone" type="VARCHAR(20)">
+				<constraints nullable="false" />
+			</column>
+			<column name="location" type="GEOMETRY">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="last_update"
+				type="TIMESTAMP(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-3">
+		<createTable tableName="category">
+			<column autoIncrement="true" name="category_id" type="TINYINT(3) UNSIGNED">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="VARCHAR(25)">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="last_update"
+				type="TIMESTAMP(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-4">
+		<createTable tableName="city">
+			<column autoIncrement="true" name="city_id" type="SMALLINT UNSIGNED">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="city" type="VARCHAR(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="country_id" type="SMALLINT UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="last_update"
+				type="TIMESTAMP(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-5">
+		<createTable tableName="country">
+			<column autoIncrement="true" name="country_id" type="SMALLINT UNSIGNED">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="country" type="VARCHAR(50)">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="last_update"
+				type="TIMESTAMP(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-6">
+		<createTable tableName="customer">
+			<column autoIncrement="true" name="customer_id" type="SMALLINT UNSIGNED">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="store_id" type="TINYINT(3) UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column name="first_name" type="VARCHAR(45)">
+				<constraints nullable="false" />
+			</column>
+			<column name="last_name" type="VARCHAR(45)">
+				<constraints nullable="false" />
+			</column>
+			<column name="email" type="VARCHAR(50)" />
+			<column name="address_id" type="SMALLINT UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueBoolean="true" name="active" type="BIT">
+				<constraints nullable="false" />
+			</column>
+			<column name="create_date" type="datetime(6)">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="last_update"
+				type="TIMESTAMP(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-7">
+		<createTable tableName="film">
+			<column autoIncrement="true" name="film_id" type="SMALLINT UNSIGNED">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="title" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="description" type="TEXT" />
+			<column name="release_year" type="YEAR" />
+			<column name="language_id" type="TINYINT(3) UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column name="original_language_id" type="TINYINT(3) UNSIGNED" />
+			<column defaultValueNumeric="3" name="rental_duration" type="TINYINT(3) UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueNumeric="4.99" name="rental_rate" type="DECIMAL(4, 2)">
+				<constraints nullable="false" />
+			</column>
+			<column name="length" type="SMALLINT UNSIGNED" />
+			<column defaultValueNumeric="19.99" name="replacement_cost"
+				type="DECIMAL(5, 2)">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValue="G" name="rating"
+				type="ENUM('G', 'PG', 'PG-13', 'R', 'NC-17')" />
+			<column name="special_features"
+				type="SET('Trailers', 'Commentaries', 'Deleted Scenes', 'Behind the Scenes')" />
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="last_update"
+				type="TIMESTAMP(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-8">
+		<createTable tableName="film_actor">
+			<column name="actor_id" type="SMALLINT UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column name="film_id" type="SMALLINT UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="last_update"
+				type="TIMESTAMP(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-9">
+		<createTable tableName="film_category">
+			<column name="film_id" type="SMALLINT UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column name="category_id" type="TINYINT(3) UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="last_update"
+				type="TIMESTAMP(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-10">
+		<createTable tableName="film_text">
+			<column name="film_id" type="SMALLINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="title" type="VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="description" type="TEXT" />
+		</createTable>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-11">
+		<createTable tableName="inventory">
+			<column autoIncrement="true" name="inventory_id" type="MEDIUMINT UNSIGNED">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="film_id" type="SMALLINT UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column name="store_id" type="TINYINT(3) UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="last_update"
+				type="TIMESTAMP(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-12">
+		<createTable tableName="language">
+			<column autoIncrement="true" name="language_id" type="TINYINT(3) UNSIGNED">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="name" type="CHAR(20)">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="last_update"
+				type="TIMESTAMP(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-13">
+		<createTable tableName="payment">
+			<column autoIncrement="true" name="payment_id" type="SMALLINT UNSIGNED">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="customer_id" type="SMALLINT UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column name="staff_id" type="TINYINT(3) UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column name="rental_id" type="INT" />
+			<column name="amount" type="DECIMAL(5, 2)">
+				<constraints nullable="false" />
+			</column>
+			<column name="payment_date" type="datetime(6)">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="last_update"
+				type="TIMESTAMP(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-14">
+		<createTable tableName="rental">
+			<column autoIncrement="true" name="rental_id" type="INT">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="rental_date" type="datetime(6)">
+				<constraints nullable="false" />
+			</column>
+			<column name="inventory_id" type="MEDIUMINT UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column name="customer_id" type="SMALLINT UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column name="return_date" type="datetime(6)" />
+			<column name="staff_id" type="TINYINT(3) UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="last_update"
+				type="TIMESTAMP(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-15">
+		<createTable tableName="staff">
+			<column autoIncrement="true" name="staff_id" type="TINYINT(3) UNSIGNED">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="first_name" type="VARCHAR(45)">
+				<constraints nullable="false" />
+			</column>
+			<column name="last_name" type="VARCHAR(45)">
+				<constraints nullable="false" />
+			</column>
+			<column name="address_id" type="SMALLINT UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column name="picture" type="BLOB" />
+			<column name="email" type="VARCHAR(50)" />
+			<column name="store_id" type="TINYINT(3) UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueBoolean="true" name="active" type="BIT">
+				<constraints nullable="false" />
+			</column>
+			<column name="username" type="VARCHAR(16)">
+				<constraints nullable="false" />
+			</column>
+			<column name="password" type="VARCHAR(40)" />
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="last_update"
+				type="TIMESTAMP(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-16">
+		<createTable tableName="store">
+			<column autoIncrement="true" name="store_id" type="TINYINT(3) UNSIGNED">
+				<constraints primaryKey="true" />
+			</column>
+			<column name="manager_staff_id" type="TINYINT(3) UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column name="address_id" type="SMALLINT UNSIGNED">
+				<constraints nullable="false" />
+			</column>
+			<column defaultValueComputed="CURRENT_TIMESTAMP" name="last_update"
+				type="TIMESTAMP(19)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-17">
+		<addPrimaryKey columnNames="actor_id, film_id"
+			constraintName="PRIMARY" tableName="film_actor" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-18">
+		<addPrimaryKey columnNames="film_id, category_id"
+			constraintName="PRIMARY" tableName="film_category" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-19">
+		<addPrimaryKey columnNames="film_id" constraintName="PRIMARY"
+			tableName="film_text" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-20">
+		<addUniqueConstraint columnNames="manager_staff_id"
+			constraintName="idx_unique_manager" tableName="store" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-21">
+		<addUniqueConstraint columnNames="rental_date, inventory_id, customer_id"
+			constraintName="rental_date" tableName="rental" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-22">
+		<createIndex indexName="fk_film_category_category"
+			tableName="film_category">
+			<column name="category_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-23">
+		<createIndex indexName="fk_payment_rental" tableName="payment">
+			<column name="rental_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-24">
+		<createIndex indexName="idx_actor_last_name" tableName="actor">
+			<column name="last_name" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-25">
+		<createIndex indexName="idx_fk_address_id" tableName="customer">
+			<column name="address_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-26">
+		<createIndex indexName="idx_fk_address_id" tableName="staff">
+			<column name="address_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-27">
+		<createIndex indexName="idx_fk_address_id" tableName="store">
+			<column name="address_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-28">
+		<createIndex indexName="idx_fk_city_id" tableName="address">
+			<column name="city_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-29">
+		<createIndex indexName="idx_fk_country_id" tableName="city">
+			<column name="country_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-30">
+		<createIndex indexName="idx_fk_customer_id" tableName="payment">
+			<column name="customer_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-31">
+		<createIndex indexName="idx_fk_customer_id" tableName="rental">
+			<column name="customer_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-32">
+		<createIndex indexName="idx_fk_film_id" tableName="film_actor">
+			<column name="film_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-33">
+		<createIndex indexName="idx_fk_film_id" tableName="inventory">
+			<column name="film_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-34">
+		<createIndex indexName="idx_fk_inventory_id" tableName="rental">
+			<column name="inventory_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-35">
+		<createIndex indexName="idx_fk_language_id" tableName="film">
+			<column name="language_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-36">
+		<createIndex indexName="idx_fk_original_language_id"
+			tableName="film">
+			<column name="original_language_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-37">
+		<createIndex indexName="idx_fk_staff_id" tableName="payment">
+			<column name="staff_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-38">
+		<createIndex indexName="idx_fk_staff_id" tableName="rental">
+			<column name="staff_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-39">
+		<createIndex indexName="idx_fk_store_id" tableName="customer">
+			<column name="store_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-40">
+		<createIndex indexName="idx_fk_store_id" tableName="staff">
+			<column name="store_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-41">
+		<createIndex indexName="idx_last_name" tableName="customer">
+			<column name="last_name" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-42">
+		<createIndex indexName="idx_location" tableName="address">
+			<column name="location" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-43">
+		<createIndex indexName="idx_store_id_film_id" tableName="inventory">
+			<column name="store_id" />
+			<column name="film_id" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-44">
+		<createIndex indexName="idx_title" tableName="film">
+			<column name="title" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-45">
+		<createIndex indexName="idx_title_description" tableName="film_text">
+			<column name="title" />
+			<column name="description" />
+		</createIndex>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-46">
+		<addForeignKeyConstraint baseColumnNames="city_id"
+			baseTableName="address" constraintName="fk_address_city" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="CASCADE"
+			referencedColumnNames="city_id" referencedTableName="city" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-47">
+		<addForeignKeyConstraint baseColumnNames="country_id"
+			baseTableName="city" constraintName="fk_city_country" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="CASCADE"
+			referencedColumnNames="country_id" referencedTableName="country" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-48">
+		<addForeignKeyConstraint baseColumnNames="address_id"
+			baseTableName="customer" constraintName="fk_customer_address"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="CASCADE" referencedColumnNames="address_id"
+			referencedTableName="address" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-49">
+		<addForeignKeyConstraint baseColumnNames="store_id"
+			baseTableName="customer" constraintName="fk_customer_store"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="CASCADE" referencedColumnNames="store_id"
+			referencedTableName="store" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-50">
+		<addForeignKeyConstraint baseColumnNames="actor_id"
+			baseTableName="film_actor" constraintName="fk_film_actor_actor"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="CASCADE" referencedColumnNames="actor_id"
+			referencedTableName="actor" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-51">
+		<addForeignKeyConstraint baseColumnNames="film_id"
+			baseTableName="film_actor" constraintName="fk_film_actor_film"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="CASCADE" referencedColumnNames="film_id"
+			referencedTableName="film" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-52">
+		<addForeignKeyConstraint baseColumnNames="category_id"
+			baseTableName="film_category" constraintName="fk_film_category_category"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="CASCADE" referencedColumnNames="category_id"
+			referencedTableName="category" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-53">
+		<addForeignKeyConstraint baseColumnNames="film_id"
+			baseTableName="film_category" constraintName="fk_film_category_film"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="CASCADE" referencedColumnNames="film_id"
+			referencedTableName="film" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-54">
+		<addForeignKeyConstraint baseColumnNames="language_id"
+			baseTableName="film" constraintName="fk_film_language" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="CASCADE"
+			referencedColumnNames="language_id" referencedTableName="language" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-55">
+		<addForeignKeyConstraint baseColumnNames="original_language_id"
+			baseTableName="film" constraintName="fk_film_language_original"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="CASCADE" referencedColumnNames="language_id"
+			referencedTableName="language" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-56">
+		<addForeignKeyConstraint baseColumnNames="film_id"
+			baseTableName="inventory" constraintName="fk_inventory_film"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="CASCADE" referencedColumnNames="film_id"
+			referencedTableName="film" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-57">
+		<addForeignKeyConstraint baseColumnNames="store_id"
+			baseTableName="inventory" constraintName="fk_inventory_store"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="CASCADE" referencedColumnNames="store_id"
+			referencedTableName="store" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-58">
+		<addForeignKeyConstraint baseColumnNames="customer_id"
+			baseTableName="payment" constraintName="fk_payment_customer"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="CASCADE" referencedColumnNames="customer_id"
+			referencedTableName="customer" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-59">
+		<addForeignKeyConstraint baseColumnNames="rental_id"
+			baseTableName="payment" constraintName="fk_payment_rental"
+			deferrable="false" initiallyDeferred="false" onDelete="SET NULL"
+			onUpdate="CASCADE" referencedColumnNames="rental_id"
+			referencedTableName="rental" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-60">
+		<addForeignKeyConstraint baseColumnNames="staff_id"
+			baseTableName="payment" constraintName="fk_payment_staff" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="CASCADE"
+			referencedColumnNames="staff_id" referencedTableName="staff" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-61">
+		<addForeignKeyConstraint baseColumnNames="customer_id"
+			baseTableName="rental" constraintName="fk_rental_customer"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="CASCADE" referencedColumnNames="customer_id"
+			referencedTableName="customer" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-62">
+		<addForeignKeyConstraint baseColumnNames="inventory_id"
+			baseTableName="rental" constraintName="fk_rental_inventory"
+			deferrable="false" initiallyDeferred="false" onDelete="NO ACTION"
+			onUpdate="CASCADE" referencedColumnNames="inventory_id"
+			referencedTableName="inventory" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-63">
+		<addForeignKeyConstraint baseColumnNames="staff_id"
+			baseTableName="rental" constraintName="fk_rental_staff" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="CASCADE"
+			referencedColumnNames="staff_id" referencedTableName="staff" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-64">
+		<addForeignKeyConstraint baseColumnNames="address_id"
+			baseTableName="staff" constraintName="fk_staff_address" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="CASCADE"
+			referencedColumnNames="address_id" referencedTableName="address" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-65">
+		<addForeignKeyConstraint baseColumnNames="store_id"
+			baseTableName="staff" constraintName="fk_staff_store" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="CASCADE"
+			referencedColumnNames="store_id" referencedTableName="store" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-66">
+		<addForeignKeyConstraint baseColumnNames="address_id"
+			baseTableName="store" constraintName="fk_store_address" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="CASCADE"
+			referencedColumnNames="address_id" referencedTableName="address" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-67">
+		<addForeignKeyConstraint baseColumnNames="manager_staff_id"
+			baseTableName="store" constraintName="fk_store_staff" deferrable="false"
+			initiallyDeferred="false" onDelete="NO ACTION" onUpdate="CASCADE"
+			referencedColumnNames="staff_id" referencedTableName="staff" />
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-68">
+		<createView fullDefinition="false" viewName="actor_info">select `a`.`actor_id` AS `actor_id`,`a`.`first_name` AS `first_name`,`a`.`last_name` AS `last_name`,group_concat(distinct concat(`c`.`name`,': ',(select group_concat(`f`.`title` order by `f`.`title` ASC separator ', ') from ((`sakila`.`film` `f` join `sakila`.`film_category` `fc` on((`f`.`film_id` = `fc`.`film_id`))) join `sakila`.`film_actor` `fa` on((`f`.`film_id` = `fa`.`film_id`))) where ((`fc`.`category_id` = `c`.`category_id`) and (`fa`.`actor_id` = `a`.`actor_id`)))) order by `c`.`name` ASC separator '; ') AS `film_info` from (((`sakila`.`actor` `a` left join `sakila`.`film_actor` `fa` on((`a`.`actor_id` = `fa`.`actor_id`))) left join `sakila`.`film_category` `fc` on((`fa`.`film_id` = `fc`.`film_id`))) left join `sakila`.`category` `c` on((`fc`.`category_id` = `c`.`category_id`))) group by `a`.`actor_id`,`a`.`first_name`,`a`.`last_name`</createView>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-69">
+		<createView fullDefinition="false" viewName="customer_list">select `cu`.`customer_id` AS `ID`,concat(`cu`.`first_name`,' ',`cu`.`last_name`) AS `name`,`a`.`address` AS `address`,`a`.`postal_code` AS `zip code`,`a`.`phone` AS `phone`,`sakila`.`city`.`city` AS `city`,`sakila`.`country`.`country` AS `country`,if(`cu`.`active`,'active','') AS `notes`,`cu`.`store_id` AS `SID` from (((`sakila`.`customer` `cu` join `sakila`.`address` `a` on((`cu`.`address_id` = `a`.`address_id`))) join `sakila`.`city` on((`a`.`city_id` = `sakila`.`city`.`city_id`))) join `sakila`.`country` on((`sakila`.`city`.`country_id` = `sakila`.`country`.`country_id`)))</createView>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-70">
+		<createView fullDefinition="false" viewName="film_list">select `sakila`.`film`.`film_id` AS `FID`,`sakila`.`film`.`title` AS `title`,`sakila`.`film`.`description` AS `description`,`sakila`.`category`.`name` AS `category`,`sakila`.`film`.`rental_rate` AS `price`,`sakila`.`film`.`length` AS `length`,`sakila`.`film`.`rating` AS `rating`,group_concat(concat(`sakila`.`actor`.`first_name`,' ',`sakila`.`actor`.`last_name`) separator ', ') AS `actors` from ((((`sakila`.`category` left join `sakila`.`film_category` on((`sakila`.`category`.`category_id` = `sakila`.`film_category`.`category_id`))) left join `sakila`.`film` on((`sakila`.`film_category`.`film_id` = `sakila`.`film`.`film_id`))) join `sakila`.`film_actor` on((`sakila`.`film`.`film_id` = `sakila`.`film_actor`.`film_id`))) join `sakila`.`actor` on((`sakila`.`film_actor`.`actor_id` = `sakila`.`actor`.`actor_id`))) group by `sakila`.`film`.`film_id`,`sakila`.`category`.`name`</createView>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-71">
+		<createView fullDefinition="false" viewName="nicer_but_slower_film_list">select `sakila`.`film`.`film_id` AS `FID`,`sakila`.`film`.`title` AS `title`,`sakila`.`film`.`description` AS `description`,`sakila`.`category`.`name` AS `category`,`sakila`.`film`.`rental_rate` AS `price`,`sakila`.`film`.`length` AS `length`,`sakila`.`film`.`rating` AS `rating`,group_concat(concat(concat(upper(substr(`sakila`.`actor`.`first_name`,1,1)),lower(substr(`sakila`.`actor`.`first_name`,2,length(`sakila`.`actor`.`first_name`))),' ',concat(upper(substr(`sakila`.`actor`.`last_name`,1,1)),lower(substr(`sakila`.`actor`.`last_name`,2,length(`sakila`.`actor`.`last_name`)))))) separator ', ') AS `actors` from ((((`sakila`.`category` left join `sakila`.`film_category` on((`sakila`.`category`.`category_id` = `sakila`.`film_category`.`category_id`))) left join `sakila`.`film` on((`sakila`.`film_category`.`film_id` = `sakila`.`film`.`film_id`))) join `sakila`.`film_actor` on((`sakila`.`film`.`film_id` = `sakila`.`film_actor`.`film_id`))) join `sakila`.`actor` on((`sakila`.`film_actor`.`actor_id` = `sakila`.`actor`.`actor_id`))) group by `sakila`.`film`.`film_id`,`sakila`.`category`.`name`</createView>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-72">
+		<createView fullDefinition="false" viewName="sales_by_film_category">select `c`.`name` AS `category`,sum(`p`.`amount`) AS `total_sales` from (((((`sakila`.`payment` `p` join `sakila`.`rental` `r` on((`p`.`rental_id` = `r`.`rental_id`))) join `sakila`.`inventory` `i` on((`r`.`inventory_id` = `i`.`inventory_id`))) join `sakila`.`film` `f` on((`i`.`film_id` = `f`.`film_id`))) join `sakila`.`film_category` `fc` on((`f`.`film_id` = `fc`.`film_id`))) join `sakila`.`category` `c` on((`fc`.`category_id` = `c`.`category_id`))) group by `c`.`name` order by `total_sales` desc</createView>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-73">
+		<createView fullDefinition="false" viewName="sales_by_store">select concat(`c`.`city`,',',`cy`.`country`) AS `store`,concat(`m`.`first_name`,' ',`m`.`last_name`) AS `manager`,sum(`p`.`amount`) AS `total_sales` from (((((((`sakila`.`payment` `p` join `sakila`.`rental` `r` on((`p`.`rental_id` = `r`.`rental_id`))) join `sakila`.`inventory` `i` on((`r`.`inventory_id` = `i`.`inventory_id`))) join `sakila`.`store` `s` on((`i`.`store_id` = `s`.`store_id`))) join `sakila`.`address` `a` on((`s`.`address_id` = `a`.`address_id`))) join `sakila`.`city` `c` on((`a`.`city_id` = `c`.`city_id`))) join `sakila`.`country` `cy` on((`c`.`country_id` = `cy`.`country_id`))) join `sakila`.`staff` `m` on((`s`.`manager_staff_id` = `m`.`staff_id`))) group by `s`.`store_id` order by `cy`.`country`,`c`.`city`</createView>
+	</changeSet>
+	<changeSet author="tstoner (generated)" id="1477581069604-74">
+		<createView fullDefinition="false" viewName="staff_list">select `s`.`staff_id` AS `ID`,concat(`s`.`first_name`,' ',`s`.`last_name`) AS `name`,`a`.`address` AS `address`,`a`.`postal_code` AS `zip code`,`a`.`phone` AS `phone`,`sakila`.`city`.`city` AS `city`,`sakila`.`country`.`country` AS `country`,`s`.`store_id` AS `SID` from (((`sakila`.`staff` `s` join `sakila`.`address` `a` on((`s`.`address_id` = `a`.`address_id`))) join `sakila`.`city` on((`a`.`city_id` = `sakila`.`city`.`city_id`))) join `sakila`.`country` on((`sakila`.`city`.`country_id` = `sakila`.`country`.`country_id`)))</createView>
+	</changeSet>
+</databaseChangeLog>
