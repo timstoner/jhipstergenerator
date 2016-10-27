@@ -90,7 +90,7 @@ public class JHipsterEntity {
 
 	private List<Field>			fields			= new ArrayList<>();
 	private List<Relationship>	relationships	= new ArrayList<>();
-	private String				name;
+	private Boolean				fluentMethods	= true;
 	private String				dto;
 	private String				changeLogDate;
 	private String				service;
@@ -111,14 +111,6 @@ public class JHipsterEntity {
 
 	public void setRelationships(List<Relationship> relationships) {
 		this.relationships = relationships;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getDto() {
@@ -159,6 +151,14 @@ public class JHipsterEntity {
 
 	public void setPagination(String pagination) {
 		this.pagination = pagination;
+	}
+
+	public Boolean getFluentMethods() {
+		return fluentMethods;
+	}
+
+	public void setFluentMethods(Boolean fluentMethods) {
+		this.fluentMethods = fluentMethods;
 	}
 
 }
