@@ -3,7 +3,9 @@ package com.example.jhipstergenerator;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +26,6 @@ import org.liquibase.xml.ns.dbchangelog.DatabaseChangeLog;
 import org.liquibase.xml.ns.dbchangelog.DatabaseChangeLog.ChangeSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -38,23 +39,25 @@ import com.google.common.base.CaseFormat;
 @Component
 public class LiquibaseMapper implements CommandLineRunner {
 
-	private static final Logger				log			= LoggerFactory.getLogger(LiquibaseMapper.class);
+	private static final Logger log = LoggerFactory.getLogger(LiquibaseMapper.class);
 
-	private static final SimpleDateFormat	dateformat	= new SimpleDateFormat("yyyyMMddHHmmss");
+	private static final SimpleDateFormat dateformat = new SimpleDateFormat("yyyyMMddHHmmss");
+	private final AppProperties appProperties;
 
-	@Autowired
-	private AppProperties					appProperties;
+	private int count = 1;
 
-	private int								count		= 1;
+	private Map<String, JHipsterEntity> entities;
 
-	private Map<String, JHipsterEntity>		entities;
+	private ObjectMapper objectMapper;
 
-	private ObjectMapper					objectMapper;
+	public LiquibaseMapper(AppProperties appProperties) {
+		this.appProperties = appProperties;
+	}
 
 	@Override
 	public void run(String... args) throws Exception {
 		objectMapper = new ObjectMapper();
-		// objectMapper.setSerializationInclusion(Include.NON_NULL);
+		objectMapper.setSerializationInclusion(Include.NON_NULL);
 		objectMapper.setSerializationInclusion(Include.NON_EMPTY);
 		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
@@ -64,43 +67,39 @@ public class LiquibaseMapper implements CommandLineRunner {
 
 	public void readLiquibaseChangeFile() throws Exception {
 		log.info("Reading Liqubase Change Log: {}", appProperties.getInput());
-		File file = new File(appProperties.getInput());
-		FileInputStream fis = new FileInputStream(file);
+		try (FileInputStream fis = new FileInputStream(appProperties.getInput())) {
+			count = 1; // reset table order counter
+			entities = new HashMap<>();
 
-		count = 1; // reset table order counter
-		entities = new HashMap<>();
+			JAXBContext jaxbContext = JAXBContext.newInstance(DatabaseChangeLog.class);
+			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+			DatabaseChangeLog databaseChangeLog = (DatabaseChangeLog) jaxbUnmarshaller.unmarshal(fis);
 
-		JAXBContext jaxbContext = JAXBContext.newInstance(DatabaseChangeLog.class);
-		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-		DatabaseChangeLog databaseChangeLog = (DatabaseChangeLog) jaxbUnmarshaller.unmarshal(fis);
+			List<Object> changeSetOrIncludeOrIncludeAll = databaseChangeLog.getChangeSetOrIncludeOrIncludeAll();
 
-		List<Object> changeSetOrIncludeOrIncludeAll = databaseChangeLog.getChangeSetOrIncludeOrIncludeAll();
-
-		changeSetOrIncludeOrIncludeAll.stream()
-				.forEach(o -> {
-					if (o instanceof ChangeSet) {
-						ChangeSet changeSet = (ChangeSet) o;
-						handleChangeSet(changeSet);
-					}
-				});
+			changeSetOrIncludeOrIncludeAll.stream().forEach(o -> {
+				if (o instanceof ChangeSet) {
+					ChangeSet changeSet = (ChangeSet) o;
+					handleChangeSet(changeSet);
+				}
+			});
+		}
 	}
 
 	private void handleChangeSet(ChangeSet changeSet) {
 		List<Object> changeSetChildren = changeSet.getChangeSetChildren();
-		changeSetChildren.stream()
-				.forEach(changeSetObject -> {
-					log.debug("{}", changeSetObject.getClass()
-							.getSimpleName());
-					if (changeSetObject instanceof CreateTable) {
-						CreateTable createTable = (CreateTable) changeSetObject;
-						handleCreateTable(createTable);
-					}
+		changeSetChildren.stream().forEach(changeSetObject -> {
+			log.debug("{}", changeSetObject.getClass().getSimpleName());
+			if (changeSetObject instanceof CreateTable) {
+				CreateTable createTable = (CreateTable) changeSetObject;
+				handleCreateTable(createTable);
+			}
 
-					if (changeSetObject instanceof AddForeignKeyConstraint) {
-						AddForeignKeyConstraint addForeignKeyConstraint = (AddForeignKeyConstraint) changeSetObject;
-						handleAddForeignKeyConstraint(addForeignKeyConstraint);
-					}
-				});
+			if (changeSetObject instanceof AddForeignKeyConstraint) {
+				AddForeignKeyConstraint addForeignKeyConstraint = (AddForeignKeyConstraint) changeSetObject;
+				handleAddForeignKeyConstraint(addForeignKeyConstraint);
+			}
+		});
 	}
 
 	private void handleCreateTable(CreateTable createTable) {
@@ -110,11 +109,12 @@ public class LiquibaseMapper implements CommandLineRunner {
 		log.info("Handling CreateTable command: {}", tableName);
 		jhipsterEntity.setEntityTableName(tableName);
 		// store the order of create table
-		// extract these to config file
 		jhipsterEntity.setChangelogDate("" + count);
-		jhipsterEntity.setDto("mapstruct");
-		jhipsterEntity.setService("serviceClass");
-		jhipsterEntity.setPagination("pagination");
+		jhipsterEntity.setDto(appProperties.getJHipster().getDto());
+		jhipsterEntity.setService(appProperties.getJHipster().getService());
+		jhipsterEntity.setPagination(appProperties.getJHipster().getPagination());
+		jhipsterEntity.setJpaMetamodelFiltering(appProperties.getJHipster().isJpaMetamodelFiltering());
+		jhipsterEntity.setFluentMethods(appProperties.getJHipster().isFluentMethods());
 
 		List<Object> columnOrAny = createTable.getColumnOrAny();
 		columnOrAny.forEach(o -> {
@@ -140,9 +140,8 @@ public class LiquibaseMapper implements CommandLineRunner {
 				name = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, name);
 				field.setFieldName(name);
 				field.setFieldType(jhipsterType);
-
-				jhipsterEntity.getFields()
-						.add(field);
+				
+				jhipsterEntity.getFields().add(field);
 			}
 		}
 	}
@@ -164,8 +163,7 @@ public class LiquibaseMapper implements CommandLineRunner {
 
 		log.info("Adding ManyToOne Relationship {} -> {}", baseEntityName, otherEntityName);
 
-		baseEntity.getRelationships()
-				.add(relationship);
+		baseEntity.getRelationships().add(relationship);
 
 		relationship = new Relationship();
 		baseEntityName = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, baseEntityName);
@@ -173,8 +171,7 @@ public class LiquibaseMapper implements CommandLineRunner {
 		relationship.setOtherEntityName(baseEntityName);
 		relationship.setRelationshipType("one-to-many");
 		relationship.setOtherEntityRelationshipName(baseEntityName);
-		otherEntity.getRelationships()
-				.add(relationship);
+		otherEntity.getRelationships().add(relationship);
 	}
 
 	private String convertDatabaseFieldTypeToJhipterFieldType(String type) {
@@ -184,7 +181,7 @@ public class LiquibaseMapper implements CommandLineRunner {
 			return "String";
 		} else if (StringUtils.startsWithIgnoreCase(type, "timestamp")
 				|| StringUtils.startsWithIgnoreCase(type, "datetime")) {
-			return ZonedDateTime.class.getSimpleName();
+			return Instant.class.getSimpleName();
 		} else if (type.contains("INT")) {
 			return Integer.class.getSimpleName();
 		} else if (type.contains("YEAR")) {
@@ -216,14 +213,13 @@ public class LiquibaseMapper implements CommandLineRunner {
 
 		// sort based on the change log date
 		// placeholder value for order in the change log file
-		Collections.sort(temp, (p1, p2) -> p1.getChangelogDate()
-				.compareTo(p2.getChangelogDate()));
+		Collections.sort(temp, (p1, p2) -> p1.getChangelogDate().compareTo(p2.getChangelogDate()));
 
 		temp.forEach(e -> {
 			try {
 				writeJHipsterEntity(e);
 			} catch (IOException e1) {
-				log.warn("Problem while writing " + e.getEntityTableName(), e);
+				log.warn("Problem while writing {}", e.getEntityTableName(), e);
 			}
 		});
 	}

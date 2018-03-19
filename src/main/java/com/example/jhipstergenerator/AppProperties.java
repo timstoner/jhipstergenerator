@@ -1,13 +1,21 @@
 package com.example.jhipstergenerator;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
-@ConfigurationProperties(prefix = "app", ignoreUnknownFields = false)
+@Component
+@ConfigurationProperties("app") // prefix app, find app.* values
 public class AppProperties {
 
-	private String	input;
+	private final JHipster jHipster = new JHipster();
 
-	private String	output;
+	private String input;
+
+	private String output;
+
+	public JHipster getJHipster() {
+		return jHipster;
+	}
 
 	public String getInput() {
 		return input;
@@ -25,4 +33,52 @@ public class AppProperties {
 		this.output = output;
 	}
 
+	public static class JHipster {
+		private boolean jpaMetamodelFiltering;
+		private String dto;
+		private String service;
+		private String pagination;
+		private boolean fluentMethods;
+
+		public boolean isJpaMetamodelFiltering() {
+			return jpaMetamodelFiltering;
+		}
+
+		public void setJpaMetamodelFiltering(boolean jpaMetamodelFiltering) {
+			this.jpaMetamodelFiltering = jpaMetamodelFiltering;
+		}
+
+		public String getDto() {
+			return dto;
+		}
+
+		public void setDto(String dto) {
+			this.dto = dto;
+		}
+
+		public String getService() {
+			return service;
+		}
+
+		public void setService(String service) {
+			this.service = service;
+		}
+
+		public String getPagination() {
+			return pagination;
+		}
+
+		public void setPagination(String pagination) {
+			this.pagination = pagination;
+		}
+
+		public boolean isFluentMethods() {
+			return fluentMethods;
+		}
+
+		public void setFluentMethods(boolean fluentMethods) {
+			this.fluentMethods = fluentMethods;
+		}
+
+	}
 }
