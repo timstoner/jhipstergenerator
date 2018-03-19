@@ -8,9 +8,9 @@ import java.util.Set;
 public class JHipsterEntity {
 
 	public static class Field {
-		private String		fieldName;
-		private String		fieldType;
-		private Set<String>	fieldValues	= new HashSet<>();
+		private String fieldName;
+		private String fieldType;
+		private Set<String> fieldValues = new HashSet<>();
 
 		public String getFieldName() {
 			return fieldName;
@@ -39,10 +39,10 @@ public class JHipsterEntity {
 	}
 
 	public static class Relationship {
-		private String	relationshipName;
-		private String	otherEntityName;
-		private String	relationshipType;
-		private String	otherEntityField;
+		private String relationshipName;
+		private String otherEntityName;
+		private String relationshipType;
+		private String otherEntityField;
 
 		public String getRelationshipName() {
 			return relationshipName;
@@ -88,14 +88,15 @@ public class JHipsterEntity {
 
 	}
 
-	private List<Field>			fields			= new ArrayList<>();
-	private List<Relationship>	relationships	= new ArrayList<>();
-	private Boolean				fluentMethods	= true;
-	private String				dto;
-	private String				changelogDate; // correct spelling in json file
-	private String				service;
-	private String				entityTableName;
-	private String				pagination;
+	private List<Field> fields = new ArrayList<>();
+	private List<Relationship> relationships = new ArrayList<>();
+	private Boolean fluentMethods = true;
+	private String dto;
+	private String changelogDate; // correct spelling in json file
+	private String service;
+	private String entityTableName;
+	private String pagination;
+	private Boolean jpaMetamodelFiltering;
 
 	public List<Field> getFields() {
 		return fields;
@@ -159,6 +160,14 @@ public class JHipsterEntity {
 
 	public void setFluentMethods(Boolean fluentMethods) {
 		this.fluentMethods = fluentMethods;
+	}
+
+	public Boolean getJpaMetamodelFiltering() {
+		return jpaMetamodelFiltering;
+	}
+
+	public void setJpaMetamodelFiltering(boolean jpaMetamodelFiltering) {
+		this.jpaMetamodelFiltering = jpaMetamodelFiltering;
 	}
 
 }
